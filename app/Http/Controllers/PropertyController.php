@@ -21,7 +21,7 @@ class PropertyController extends Controller
                 'property_types.name as property_type',
                 'categories.name as category', 'locations.name as location'
             )
-            ->paginate();
+            ->paginate(15);
 
         return view('home', compact('properties'));
     }
