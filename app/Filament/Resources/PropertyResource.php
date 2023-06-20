@@ -3,15 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PropertyResource\Pages;
-use App\Filament\Resources\PropertyResource\RelationManagers;
 use App\Models\Property;
+use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PropertyResource extends Resource
 {
@@ -29,7 +29,21 @@ class PropertyResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('name')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->reactive()
+                                    ->afterStateUpdated(function (Closure $set, $state) {
+                                        $set('slug', Str::slug($state));
+                                    }),
+                                Forms\Components\TextInput::make('slug')
+                                    ->required(),
+                                Forms\Components\TextInput::make('price')
+                                    ->numeric()->mask(fn (Mask $mask) => $mask
+                                        ->numeric()
+                                        ->thousandsSeparator(',')
+                                        ->minValue(1)
+                                    ),
+                                Forms\Components\Select::make('category_id')
+                                    ->relationship('category', 'name'),
                                 Forms\Components\Select::make('location_id')
                                     ->relationship('location', 'name'),
                                 Forms\Components\Select::make('property_status_id')
@@ -37,7 +51,8 @@ class PropertyResource extends Resource
                                 Forms\Components\Select::make('property_type_id')
                                     ->relationship('propertyType', 'name'),
                             ]),
-                        Forms\Components\RichEditor::make('description'),
+                        Forms\Components\RichEditor::make('description')
+                            ->required(),
                         Forms\Components\FileUpload::make('thumbnail'),
                     ])
             ]);

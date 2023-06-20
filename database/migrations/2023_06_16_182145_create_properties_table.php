@@ -14,12 +14,17 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->foreignId('location_id')->nullable();
             $table->foreignId('property_status_id')->nullable();
             $table->foreignId('property_type_id')->nullable();
             $table->string('thumbnail', 2048)->nullable();
-            $table->longText('description')->nullable();
+            $table->longText('description');
             $table->foreignId('user_id')->nullable();
+            $table->foreignId('category_id')->nullable();
+            $table->dateTime('date_online')->nullable();
+            $table->dateTime('date_offline')->nullable();
+            $table->unsignedFloat('price')->nullable();
             $table->timestamps();
         });
     }
