@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PropertyController::class, 'index'])->name('home');
+Route::get('property/{id}', [PropertyController::class, 'show'])->name('show');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)

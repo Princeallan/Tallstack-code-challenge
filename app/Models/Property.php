@@ -36,4 +36,13 @@ class Property extends Model
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
+
+    public function getThumbnail()
+    {
+        if (str_starts_with($this->thumbnail, 'http')) {
+            return $this->thumbnail;
+        }
+
+        return '/storage/' . $this->thumbnail;
+    }
 }

@@ -82,8 +82,8 @@
 <!-- Text Header -->
 <header class="w-full mx-auto bg-gray-300">
     <div class="flex flex-col items-center py-6">
-        <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="#">
-            My Property Site
+        <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="{{url('/')}}">
+            Property Manager
         </a>
         <p class="text-lg text-gray-600">
             Quality Homes
@@ -94,7 +94,6 @@
 <div class="container mx-auto flex flex-wrap py-6">
 
         {{$slot}}
-
 
     <!-- Sidebar Section -->
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
