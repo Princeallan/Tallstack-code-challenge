@@ -1,13 +1,4 @@
-{{--@extends('layouts.base')--}}
-
-{{--@section('body')--}}
-{{--    @yield('content')--}}
-{{--    --}}
-{{--    @isset($slot)--}}
-{{--        {{ $slot }}--}}
-{{--    @endisset--}}
-{{--@endsection--}}
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
@@ -86,7 +77,7 @@
             Property Manager
         </a>
         <p class="text-lg text-gray-600">
-            Quality Homes
+            Quality Properties
         </p>
     </div>
 </header>
@@ -99,13 +90,12 @@
     <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
 
         <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-            <p class="text-xl font-semibold pb-5">About Us</p>
-            <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio
-                sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
-            <a href="#"
-               class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
-                Get to know us
-            </a>
+            <form method="get" action="{{url('search')}}">
+                <input name="term" value="{{request()->get('term')}}"
+                       class="block w-full rounded-md border-0 px-3.5 py-2 t0ext-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 font-medium"
+                       placeholder="Type an hit enter to search anything"/>
+            </form>
+
         </div>
 
         <div class="w-full bg-white shadow flex flex-col my-4 p-6">

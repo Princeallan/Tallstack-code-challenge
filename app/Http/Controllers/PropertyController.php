@@ -3,24 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use App\Repositories\PropertyRepository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class PropertyController extends Controller
 {
+    protected $propertyRepository;
+
+    public function __construct(PropertyRepository $propertyRepository)
+    {
+        $this->propertyRepository = $propertyRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        $properties = Property::query()
-            ->leftJoin('property_types', 'properties.property_type_id', 'property_types.id')
-            ->leftJoin('categories', 'properties.category_id', 'categories.id')
-            ->leftJoin('locations', 'properties.location_id', 'locations.id')
-            ->select('properties.id', 'properties.name',
-                'properties.thumbnail', 'properties.price',
-                'property_types.name as property_type',
-                'categories.name as category', 'locations.name as location'
-            )
+        $properties = $this->propertyRepository->getAllProperties()
             ->paginate(15);
 
         return view('home', compact('properties'));
@@ -41,6 +45,24 @@ class PropertyController extends Controller
         $nextPropertyId = Property::where('id', '>', $property->id)->min('id');
 
         return view('view', compact('property', 'previousPropertyId', 'nextPropertyId'));
+    }
+
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function search(Request $request): View
+    {
+        $term = $request->get('term');
+
+        $properties = $this->propertyRepository->getAllProperties()
+            ->where(function ($query) use ($term) {
+                $query->where('properties.name', 'like', "%$term%")
+                    ->orWhere('properties.description', 'like', "%$term%");
+            })
+            ->paginate(15);
+
+        return view('home', compact('properties'));
     }
 
 }
