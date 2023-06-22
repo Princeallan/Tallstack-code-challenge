@@ -10,7 +10,7 @@
 ### Installation Process
 - Clone the project ```git clone https://github.com/Princeallan/Tallstack-code-challenge.git```
 - Copy the env file and set up URL - ```cp .env.example .env```
-- 
+---
 ``` 
     composer install
     
@@ -30,6 +30,6 @@
     Password: Secret123!
 
 ---
-
+- Also, you can register in the fronted in case the given credentials fail
 - To Navigate between the dashboard and backend of the system,
 there is a buttons **Dashboard** button after login and **Frontend** in the sidebar in the admin panel
