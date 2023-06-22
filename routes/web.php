@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PropertyController::class, 'index'])->name('home');
+Route::get('/', [PropertyController::class, 'render'])->name('home');
 Route::get('property/{id}', [PropertyController::class, 'show'])->name('show');
 Route::get('/search', [PropertyController::class, 'search'])->name('search');
 

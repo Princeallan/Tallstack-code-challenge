@@ -24,7 +24,12 @@
     
     php artisan db:seed
 ```
-
+---
 #### Login credentials: 
-- Email : demoadmin@example.com
-- Password: Secret123!
+    Email : demoadmin@example.com
+    Password: Secret123!
+
+---
+
+- To Navigate between the dashboard and backend of the system,
+there is a buttons **Dashboard** button after login and **Frontend** in the sidebar in the admin panel
