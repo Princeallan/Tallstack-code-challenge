@@ -18,24 +18,7 @@ class PropertyController extends Controller
 
     public function index()
     {
-        $min_value = request()->min_value;
-        $max_value = request()->max_value;
-        $term = request()->term;
-
-        $properties = $this->propertyRepository->getAllProperties()
-            ->when($term, function ($query) use ($term) {
-                $query->where(function ($query) use ($term) {
-                    $query->where('properties.name', 'like', '%' . $term . '%')
-                        ->orWhere('properties.description', 'like', '%' . $term . '%');
-                });
-            })
-            ->when($min_value, function ($query) use ($min_value) {
-                $query->where('properties.price', '>=', $min_value);
-            })
-            ->when($max_value, function ($query) use ($max_value) {
-                $query->where('properties.price', '<=', $max_value);
-            })->paginate(15);
-
+        $properties = $this->propertyRepository->getAllProperties(request()->all());
 
         return view('home', compact('properties'));
 
