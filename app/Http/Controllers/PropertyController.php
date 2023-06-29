@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use App\Repositories\PropertyRepository;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Livewire\Livewire;
 
 class PropertyController extends Controller
 {
@@ -17,15 +15,30 @@ class PropertyController extends Controller
         $this->propertyRepository = $propertyRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function render(): View
+
+    public function index()
     {
+        $min_value = request()->min_value;
+        $max_value = request()->max_value;
+        $term = request()->term;
+
         $properties = $this->propertyRepository->getAllProperties()
-            ->paginate(15);
+            ->when($term, function ($query) use ($term) {
+                $query->where(function ($query) use ($term) {
+                    $query->where('properties.name', 'like', '%' . $term . '%')
+                        ->orWhere('properties.description', 'like', '%' . $term . '%');
+                });
+            })
+            ->when($min_value, function ($query) use ($min_value) {
+                $query->where('properties.price', '>=', $min_value);
+            })
+            ->when($max_value, function ($query) use ($max_value) {
+                $query->where('properties.price', '<=', $max_value);
+            })->paginate(15);
+
 
         return view('home', compact('properties'));
+
     }
 
     /**
@@ -44,39 +57,5 @@ class PropertyController extends Controller
 
         return view('view', compact('property', 'previousPropertyId', 'nextPropertyId'));
     }
-
-    /**
-     * @param Request $request
-     * @return View
-     */
-//    public function search(Request $request): View
-//    {
-//        if ($request->min_value)
-//            $request->validate([
-//                'min_value' => ['nullable', 'numeric'],
-//                'max_value' => ['nullable', 'numeric','gt:min_value'],
-//            ]);
-//
-//        $min_value = $request->min_value;
-//        $max_value = $request->max_value;
-//        $term = $request->term;
-//
-//        $properties = $this->propertyRepository->getAllProperties()
-//            ->when($term, function ($query) use ($term) {
-//                $query->where(function ($query) use ($term) {
-//                    $query->where('properties.name', 'like', '%' .$term . '%')
-//                        ->orWhere('properties.description', 'like', '%' .$term . '%');
-//                });
-//            })
-//            ->when($min_value, function ($query) use ($min_value) {
-//                $query->where('properties.price', '>=', $min_value);
-//            })
-//            ->when($max_value, function ($query) use ($max_value) {
-//                $query->where('properties.price', '<=', $max_value);
-//            })
-//            ->paginate(15);
-
-//        return view('home', compact('properties'));
-//    }
 
 }

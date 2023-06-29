@@ -3,7 +3,7 @@
 
     <div class="w-full bg-white shadow flex flex-col my-4 p-6">
         <p class="text-xl font-semibold pb-5">Filter</p>
-        <form method="get" action="{{url('search')}}">
+        <form method="get" action="{{url('/')}}">
             <div class="w-full md:w-full px-3 mb-6 md:mb-0 flex">
                 <input name="term"
                        value="{{request()->get('term')}}"
@@ -34,7 +34,6 @@
                 </button>
             </div>
         </form>
-        @livewire('user-profile')
 
     </div>
 

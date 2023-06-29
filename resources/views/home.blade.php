@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <!--   Search results Section -->
-    @livewire('search-results')
+{{--    @livewire('search-results')--}}
 
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
         @if($properties)
@@ -18,7 +18,9 @@
         @endif
     </section>
 
+    <x-search-form></x-search-form>
+
     <!-- Filter Form -->
-    @livewire('search-form')
+{{--    @livewire('search-form')--}}
 
 </x-app-layout>
