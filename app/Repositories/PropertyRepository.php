@@ -9,9 +9,9 @@ class PropertyRepository
 {
     public function getAllProperties($filterData = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $term = $filterData['term'];
-        $min_value = $filterData['min_value'];
-        $max_value = $filterData['max_value'];
+        $term = $filterData['term'] ?? null;
+        $min_value = $filterData['min_value'] ?? null;
+        $max_value = $filterData['max_value'] ?? null;
 
         return Property::query()
             ->leftJoin('property_types', 'properties.property_type_id', 'property_types.id')
